@@ -2,15 +2,10 @@ from bs4 import BeautifulSoup
 import requests
 import time
 
-print('Put some skill that you are not familiar with: ')
-unfamiliar_skill = input('>')
-print(f'Filtering out {unfamiliar_skill}')
-
-
-def find_jobs():
+def find_jobs(unfamiliar_skill):
     html_text = requests.get(
         'https://www.timesjobs.com/candidate/job-search.html?searchType=personalizedSearch&from=submit&txtKeywords'
-        '=python&txtLocation=').text
+        '=javascript&txtLocation=').text
     soup = BeautifulSoup(html_text, 'lxml')
     jobs = soup.find_all('li', class_='clearfix job-bx wht-shd-bx')
     for index, job in enumerate(jobs):
@@ -26,10 +21,13 @@ def find_jobs():
                 f.write(' ')
             print(f'File saved: {index}')
 
-
 if __name__ == '__main__':
+    print('Put some skill that you are not familiar with: ')
+    unfamiliar_skill = input('>')
+    print(f'Filtering out {unfamiliar_skill}')
+
     while True:
-        find_jobs()
+        find_jobs(unfamiliar_skill)
         time_wait = 10
         print(f'Waiting {time_wait} minutes...')
         time.sleep(time_wait * 60)
