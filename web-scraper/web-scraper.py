@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import time
+import pandas as pd
 
 def find_jobs_no_js(unfamiliar_skill):
     html_text = requests.get(
@@ -78,6 +79,10 @@ def find_jobs_no_angular(unfamiliar_skill):
                 f.write(' ')
             print(f'File saved: angular_{index}')
 
+def export_to_excel(job_list, file_name):
+    df = pd.DataFrame(job_list)
+    df.to_excel(file_name, index=False)
+
 
 if __name__ == '__main__':
     print('Put some skill that you are not familiar with: ')
@@ -92,3 +97,5 @@ if __name__ == '__main__':
         time_wait = 10
         print(f'Waiting {time_wait} minutes...')
         time.sleep(time_wait * 60)
+        
+    export_to_excel(job_list, 'jobs_list.xlsx')
